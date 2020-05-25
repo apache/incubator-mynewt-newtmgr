@@ -121,6 +121,7 @@ func Commands() *cobra.Command {
 	nmCmd.AddCommand(resCmd())
 	nmCmd.AddCommand(interactiveCmd())
 	nmCmd.AddCommand(shellCmd())
+	nmCmd.AddCommand(memfaultCmd())
 
 	return nmCmd
 }
