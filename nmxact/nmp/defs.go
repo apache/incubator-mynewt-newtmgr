@@ -49,6 +49,7 @@ const (
 	NMP_GROUP_RUN     = 7
 	NMP_GROUP_FS      = 8
 	NMP_GROUP_SHELL   = 9
+	NMP_GROUP_MEMFAULT= 10
 	NMP_GROUP_PERUSER = 64
 )
 
@@ -111,4 +112,9 @@ const (
 // Shell group (8).
 const (
 	NMP_ID_SHELL_EXEC = 0
+)
+
+// Memfault group (8).
+const (
+	NMP_ID_MEMFAULT_PULL = 0
 )
