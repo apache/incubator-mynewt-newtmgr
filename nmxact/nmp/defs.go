@@ -112,3 +112,22 @@ const (
 const (
 	NMP_ID_SHELL_EXEC = 0
 )
+
+func StatusString(status int) string {
+	switch status {
+	case NMP_ERR_OK:
+		return "ok"
+	case NMP_ERR_EUNKNOWN:
+		return "unknown"
+	case NMP_ERR_ENOMEM:
+		return "nomem"
+	case NMP_ERR_EINVAL:
+		return "inval"
+	case NMP_ERR_ETIMEOUT:
+		return "timeout"
+	case NMP_ERR_ENOENT:
+		return "noent"
+	default:
+		return "???"
+	}
+}

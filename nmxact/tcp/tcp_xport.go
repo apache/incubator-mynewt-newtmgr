@@ -17,36 +17,43 @@
  * under the License.
  */
 
-package nmcoap
+package tcp
 
 import (
-	"github.com/runtimeco/go-coap"
-	log "github.com/sirupsen/logrus"
+	"fmt"
+
+	"mynewt.apache.org/newtmgr/nmxact/nmxutil"
+	"mynewt.apache.org/newtmgr/nmxact/sesn"
 )
 
-type Reassembler struct {
-	cur []byte
+type TcpXport struct {
+	started bool
 }
 
-func NewReassembler() *Reassembler {
-	return &Reassembler{}
+func NewTcpXport() *TcpXport {
+	return &TcpXport{}
 }
 
-func (r *Reassembler) RxFrag(frag []byte) *coap.TcpMessage {
-	r.cur = append(r.cur, frag...)
+func (x *TcpXport) BuildSesn(cfg sesn.SesnCfg) (sesn.Sesn, error) {
+	return NewTcpSesn(cfg)
+}
 
-	var tm *coap.TcpMessage
-	var err error
-	tm, r.cur, err = coap.PullTcp(r.cur)
-	if err != nil {
-		log.Debugf("received invalid CoAP-TCP packet: %s", err.Error())
-		return nil
+func (x *TcpXport) Start() error {
+	if x.started {
+		return nmxutil.NewXportError("TCP xport started twice")
 	}
+	x.started = true
+	return nil
+}
 
-	if tm == nil {
-		return nil
+func (x *TcpXport) Stop() error {
+	if !x.started {
+		return nmxutil.NewXportError("TCP xport stopped twice")
 	}
+	x.started = false
+	return nil
+}
 
-	r.cur = nil
-	return tm
+func (x *TcpXport) Tx(bytes []byte) error {
+	return fmt.Errorf("unsupported")
 }
